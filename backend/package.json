@@ -1,0 +1,21 @@
+{
+	"name": "backend",
+	"version": "0.1.0",
+	"description": "",
+	"scripts": {
+		"backend": "nodemon --watch '**/*.ts' --exec 'ts-node' app.ts"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.20.3",
+		"express": "^4.21.1"
+	},
+	"devDependencies": {
+		"@types/body-parser": "^1.19.5",
+		"@types/express": "^5.0.0",
+		"@types/node": "^22.9.1",
+		"nodemon": "^3.1.7",
+		"ts-node": "^10.9.2"
+	}
+}

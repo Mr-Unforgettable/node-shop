@@ -1,0 +1,8 @@
+{
+	"scripts": {
+		"start": "concurrently \"pnpm --filter backend run backend\" \"pnpm --filter frontend run frontend\""
+	},
+	"devDependencies": {
+		"concurrently": "^9.1.0"
+	}
+}
