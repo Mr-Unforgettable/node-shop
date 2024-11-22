@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import { withRouter } from './hoc/with-router'; // Assuming withRouter is necessary
+import { withRouter } from './hoc/with-router';
 
 import Layout from './components/Layout/Layout';
 import Backdrop from './components/Backdrop/Backdrop';
