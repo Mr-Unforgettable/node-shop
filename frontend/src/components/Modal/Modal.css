@@ -1,12 +1,19 @@
+* {
+  box-sizing: border-box; /* Ensure consistent box sizing */
+}
+
 .modal {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
   position: fixed;
   width: 90%;
   left: 5%;
-  top: 20vh;
+  top: 10vh; /* Adjusted to give more space from the top */
   background: white;
   border-radius: 5px;
   z-index: 200;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  max-height: 80vh; /* Limit the height of the modal */
 }
 
 .modal__header {
@@ -20,7 +27,17 @@
 }
 
 .modal__content {
+  flex: 1; /* Take up available space */
   padding: 1rem;
+  overflow-y: auto; /* Allow scrolling */
+  max-height: calc(70vh - 100px); /* Adjust based on header and footer height */
+}
+
+.modal__content input,
+.modal__content textarea {
+  width: 100%; /* Fit input fields within modal */
+  padding: 0.5rem; /* Add padding for usability */
+  margin: 0.5rem 0; /* Consistent margin */
 }
 
 .modal__actions {
@@ -36,5 +53,12 @@
   .modal {
     width: 40rem;
     left: calc((100% - 40rem) / 2);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    max-height: 90vh; /* Adjust height for mobile devices */
+    top: 5vh; /* Keep it lower to allow more space */
   }
 }
