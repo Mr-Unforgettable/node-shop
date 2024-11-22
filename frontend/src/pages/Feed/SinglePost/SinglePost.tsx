@@ -1,53 +1,55 @@
-import React, { Component } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Image from '../../../components/Image/Image';
 import './SinglePost.css';
 
-class SinglePost extends Component {
-  state = {
-    title: '',
-    author: '',
-    date: '',
-    image: '',
-    content: ''
-  };
-
-  componentDidMount() {
-    const postId = this.props.match.params.postId;
-    fetch('URL')
-      .then(res => {
-        if (res.status !== 200) {
-          throw new Error('Failed to fetch status');
-        }
-        return res.json();
-      })
-      .then(resData => {
-        this.setState({
-          title: resData.post.title,
-          author: resData.post.creator.name,
-          date: new Date(resData.post.createdAt).toLocaleDateString('en-US'),
-          content: resData.post.content
-        });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  render() {
-    return (
-      <section className="single-post">
-        <h1>{this.state.title}</h1>
-        <h2>
-          Created by {this.state.author} on {this.state.date}
-        </h2>
-        <div className="single-post__image">
-          <Image contain imageUrl={this.state.image} />
-        </div>
-        <p>{this.state.content}</p>
-      </section>
-    );
-  }
+interface SinglePostPageProps {
+  userId: string | null;
+  token: string | null;
 }
+
+const SinglePost: React.FC<SinglePostPageProps> = ({ userId, token }) => {
+  const { postId } = useParams<{ postId: string }>();
+  const [post, setPost] = useState<any>(null);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      try {
+        const response = await fetch(`URL/${postId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          }
+        });
+
+        if (response.status !== 200) {
+          throw new Error('Failed to fetch post');
+        }
+        
+        const resData = await response.json();
+        setPost(resData.post);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchPost();
+  }, [postId, token]);
+
+  if (!post) {
+    return <p>Loading...</p>
+  }
+
+  return (
+    <section className="single-post-page">
+      <h1>{post.title}</h1>
+      <h2>Created by {post.creator.name} on {new Date(post.createdAt).toLocaleDateString('en-US')}</h2>
+      <div className="single-post-page__image">
+        <Image contain imageUrl={post.imageUrl} />
+      </div>
+      <p>{post.content}</p>
+    </section>
+  );
+};
 
 export default SinglePost;

@@ -1,4 +1,3 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import './NavigationItems.css';
@@ -9,13 +8,13 @@ const navItems = [
   { id: 'signup', text: 'Signup', link: '/signup', auth: false }
 ];
 
-const navigationItems = props => [
+const navigationItems = (props: any) => [
   ...navItems.filter(item => item.auth === props.isAuth).map(item => (
     <li
       key={item.id}
       className={['navigation-item', props.mobile ? 'mobile' : ''].join(' ')}
     >
-      <NavLink to={item.link} exact onClick={props.onChoose}>
+      <NavLink to={item.link} onClick={props.onChoose}>
         {item.text}
       </NavLink>
     </li>

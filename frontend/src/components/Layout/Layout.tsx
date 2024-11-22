@@ -1,8 +1,8 @@
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 
 import './Layout.css';
 
-const layout = props => (
+const layout = (props: any) => (
   <Fragment>
     <header className="main-header">{props.header}</header>
     {props.mobileNav}

@@ -1,9 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import './Button.css';
 
-const button = props =>
+const button = (props: any) =>
   !props.link ? (
     <button
       className={[

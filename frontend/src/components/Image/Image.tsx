@@ -1,8 +1,6 @@
-import React from 'react';
-
 import './Image.css';
 
-const image = props => (
+const image = (props: any) => (
   <div
     className="image"
     style={{

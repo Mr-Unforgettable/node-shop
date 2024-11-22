@@ -1,8 +1,6 @@
-import React from 'react';
-
 import './Loader.css';
 
-const loader = props => (
+const loader = () => (
   <div className="loader">
     <div />
     <div />

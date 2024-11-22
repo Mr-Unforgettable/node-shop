@@ -1,8 +1,6 @@
-import React from 'react';
-
 import './Input.css';
 
-const input = props => (
+const input = (props: any) => (
   <div className="input">
     {props.label && <label htmlFor={props.id}>{props.label}</label>}
     {props.control === 'input' && (
