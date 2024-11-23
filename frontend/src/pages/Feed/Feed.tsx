@@ -66,7 +66,7 @@ const Feed: React.FC<FeedPageProps> = ({ userId, token }) => {
     }
 
     try {
-      const response = await fetch("URL");
+      const response = await fetch("http://localhost:8080/feed/posts");
       if (response.status !== 200) {
         throw new Error("Failed to fetch posts.");
       }
@@ -115,17 +115,29 @@ const Feed: React.FC<FeedPageProps> = ({ userId, token }) => {
 
   const finishEditHandler = async (postData: any) => {
     setEditLoading(true);
-    let url = "URL";
+    let url = "http://localhost:8080/feed/post";
+    let method = "POST";
     if (editPost) {
       url = "URL";
     }
 
     try {
-      const response = await fetch("URL");
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: postData.title,
+          content: postData.content,
+        })
+      });
       if (response.status !== 200 && response.status !== 201) {
         throw new Error("Creating or editing a post failed!");
       }
       const resData = await response.json();
+      // Testing resData
+      console.log(resData);
       const post = {
         _id: resData.post._id,
         title: resData.post.title,
