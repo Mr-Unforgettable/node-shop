@@ -15,7 +15,7 @@ const SinglePost: React.FC<SinglePostPageProps> = ({ userId, token }) => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await fetch(`URL/${postId}`, {
+        const response = await fetch(`http://localhost:8080/feed/post/${postId}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -28,6 +28,7 @@ const SinglePost: React.FC<SinglePostPageProps> = ({ userId, token }) => {
         
         const resData = await response.json();
         setPost(resData.post);
+        console.log(resData.post);
       } catch (err) {
         console.error(err);
       }
@@ -45,7 +46,7 @@ const SinglePost: React.FC<SinglePostPageProps> = ({ userId, token }) => {
       <h1>{post.title}</h1>
       <h2>Created by {post.creator.name} on {new Date(post.createdAt).toLocaleDateString('en-US')}</h2>
       <div className="single-post-page__image">
-        <Image contain imageUrl={post.imageUrl} />
+        <Image contain imageUrl={`http://localhost:8080/${post.imageUrl}`} />
       </div>
       <p>{post.content}</p>
     </section>
