@@ -13,21 +13,18 @@ class HttpError extends Error {
   }
 }
 
-export const getPosts: RequestHandler = (req, res, next) => {
-  res.status(200).json({
-    posts: [
-      {
-        _id: 1,
-        title: "First Post",
-        Content: "This is the first post!",
-        imageUrl: "images/googlepixel.png",
-        creator: {
-          name: "Abhinav",
-        },
-        createdAt: new Date(),
-      },
-    ],
-  });
+export const getPosts: RequestHandler = async (req, res, next) => {
+  try {
+    const posts = await Post.find();
+    if (posts) {
+      res.status(200).json({
+        message: "Fetched posts successfully.",
+        posts: posts,
+      })
+    }
+  } catch (err) {
+    return next(new HttpError('Failed to fetch posts.', 500));
+  }
 };
 
 export const createPost: RequestHandler = async (req, res, next) => {
@@ -38,7 +35,6 @@ export const createPost: RequestHandler = async (req, res, next) => {
         "Validation failed, entered data is incorrect.",
         422
       );
-      console.error(validationError.statusCode);
       res.status(validationError.statusCode).json({
         message: validationError.message,
       });
@@ -65,5 +61,23 @@ export const createPost: RequestHandler = async (req, res, next) => {
     });
   } catch (err) {
     return next(new HttpError("Failed to create a post", 500));
+  }
+};
+
+export const getPost: RequestHandler = async (req, res, next) => {
+  try {
+    const postId = req.params.postId;
+    const getPost = await Post.findById(postId);
+    if (!getPost) {
+      const error = new HttpError('Could not find post.', 404);
+      throw error;
+    }
+
+    res.status(200).json({
+      message: "Post fetched.",
+      post: getPost,
+    })
+  } catch (err) {
+    return next(new HttpError("Failed to fetch a post", 500));
   }
 };
