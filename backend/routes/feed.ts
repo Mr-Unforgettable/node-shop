@@ -1,5 +1,6 @@
 import express from "express";
 import { getPosts, createPost } from "../controllers/feed";
+import { createPostsValidationRules } from "../validators/createPostsValidation";
 
 const router = express.Router();
 
@@ -7,6 +8,6 @@ const router = express.Router();
 router.get("/posts", getPosts);
 
 // POST => /feed/post
-router.post("/post", createPost);
+router.post("/post", createPostsValidationRules(), createPost);
 
 export default router;
