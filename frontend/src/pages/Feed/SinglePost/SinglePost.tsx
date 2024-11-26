@@ -28,7 +28,6 @@ const SinglePost: React.FC<SinglePostPageProps> = ({ userId, token }) => {
         
         const resData = await response.json();
         setPost(resData.post);
-        console.log(resData.post);
       } catch (err) {
         console.error(err);
       }
