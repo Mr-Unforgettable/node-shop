@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import { withRouter } from './hoc/with-router';
 
@@ -14,7 +14,7 @@ import LoginPage from './pages/Auth/Login';
 import SignupPage from './pages/Auth/Signup';
 import './App.css';
 
-const App = (props: any) => {
+const App = (props: { navigate: (arg0: string) => void; }) => {
     const [showBackdrop, setShowBackdrop] = useState(false);
     const [showMobileNav, setShowMobileNav] = useState(false);
     const [isAuth, setIsAuth] = useState(true);
@@ -43,14 +43,14 @@ const App = (props: any) => {
     }, []);
 
     // Function for setting auto logout
-    const setAutoLogout = (milliseconds: any) => {
+    const setAutoLogout = (milliseconds: number) => {
         setTimeout(() => {
             logoutHandler();
         }, milliseconds);
     };
 
     // Handlers
-    const mobileNavHandler = (isOpen: any) => {
+    const mobileNavHandler = (isOpen: boolean) => {
         setShowMobileNav(isOpen);
         setShowBackdrop(isOpen);
     };
@@ -69,7 +69,7 @@ const App = (props: any) => {
         localStorage.removeItem('userId');
     };
 
-    const loginHandler = (event: any, authData: any) => {
+    const loginHandler = (event: React.FormEvent<Element>, authData: unknown) => {
         event.preventDefault();
         setAuthLoading(true);
         fetch('URL')
@@ -101,7 +101,7 @@ const App = (props: any) => {
             });
     };
 
-    const signupHandler = (event: any, authData: any) => {
+    const signupHandler = (event: React.FormEvent<Element>, authData: unknown) => {
         event.preventDefault();
         setAuthLoading(true);
         fetch('URL')
@@ -114,7 +114,7 @@ const App = (props: any) => {
                 }
                 return res.json();
             })
-            .then((resData) => {
+            .then((resData: Promise<Response>) => {
                 setIsAuth(false);
                 setAuthLoading(false);
                 props.navigate('/');

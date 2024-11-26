@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+*.jpg
+*.png
+*.jpeg
 .env
 
 # Editor directories and files

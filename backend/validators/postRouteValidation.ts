@@ -12,3 +12,15 @@ export const createPostsValidationRules = () => {
             .isLength({ min: 5 }),
     ];
 };
+
+export const updatePostsValidationRules = () => {
+    return [
+        body('title')
+            .trim()
+            .isLength({ min: 5 }),
+
+        body('content')
+            .trim()
+            .isLength({ min: 5 }),
+    ];
+};
