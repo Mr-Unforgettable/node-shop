@@ -133,17 +133,37 @@ export const updatePost: RequestHandler = async (req, res, next) => {
     fetchedPost.content = content;
 
     const result = await fetchedPost.save();
-    
-    res.status(200).json({ 
-      message: 'Post updated!',
-      post: result
+
+    res.status(200).json({
+      message: "Post updated!",
+      post: result,
     });
   } catch (err) {
     return next(new HttpError("Failed to update a post", 500));
   }
 };
 
+export const deletePost: RequestHandler = async (req, res, next) => {
+  try {
+    const postId = req.params.postId;
+    const fetchedPost = await Post.findById(postId);
+    if (!fetchedPost) {
+      const error = new HttpError("Could not find post.", 404);
+      throw error;
+    }
+    clearImage(fetchedPost.imageUrl);
+
+    await Post.findByIdAndDelete(postId);
+
+    res.status(200).json({ message: "Deleted post!" });
+  } catch (err) {
+    return next(new HttpError("Failed to delete a post", 500));
+  }
+};
+
+// This is a helper function to remove the unused files.
 const clearImage = (filePath: string) => {
   filePath = path.join(__dirname, "..", filePath);
+  // console.log(filePath);
   fs.unlink(filePath);
-}
+};

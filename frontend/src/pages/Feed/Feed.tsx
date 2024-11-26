@@ -125,7 +125,7 @@ const Feed: React.FC<FeedPageProps> = ({ userId, token }) => {
     formData.append('title', postData.title);
     formData.append('content', postData.content);
     formData.append('image', postData.image);
-    
+
     let url = "http://localhost:8080/feed/post";
     let method = "POST";
     if (editPost) {
@@ -183,7 +183,7 @@ const Feed: React.FC<FeedPageProps> = ({ userId, token }) => {
   const deletePostHandler = async (postId: string) => {
     setPostsLoading(true);
     try {
-      const response = await fetch("URL");
+      const response = await fetch(`http://localhost:8080/feed/post/${postId}`, { method: 'DELETE' });
       if (response.status !== 200 && response.status !== 201) {
         throw new Error("Deleting a post failed!");
       }
