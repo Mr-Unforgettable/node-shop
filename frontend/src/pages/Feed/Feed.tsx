@@ -71,7 +71,12 @@ const Feed: React.FC<FeedPageProps> = ({ userId, token }) => {
         throw new Error("Failed to fetch posts.");
       }
       const resData = await response.json();
-      setPosts(resData.posts);
+      setPosts(resData.posts.map((post: any) => {
+        return {
+          ...post,
+          imagePath: post.imageUrl,
+        }
+      }));
       setTotalPosts(resData.totalItems);
       setPostsLoading(false);
     } catch (err) {
@@ -115,29 +120,30 @@ const Feed: React.FC<FeedPageProps> = ({ userId, token }) => {
 
   const finishEditHandler = async (postData: any) => {
     setEditLoading(true);
+
+    const formData = new FormData();
+    formData.append('title', postData.title);
+    formData.append('content', postData.content);
+    formData.append('image', postData.image);
+    
     let url = "http://localhost:8080/feed/post";
     let method = "POST";
     if (editPost) {
-      url = "URL";
+      url = `http://localhost:8080/feed/post/${editPost._id}`;
+      method = 'PUT';
     }
 
     try {
       const response = await fetch(url, {
         method: method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: postData.title,
-          content: postData.content,
-        })
+        body: formData,
       });
       if (response.status !== 200 && response.status !== 201) {
         throw new Error("Creating or editing a post failed!");
       }
       const resData = await response.json();
       // Testing resData
-      console.log(resData);
+      // console.log(resData);
       const post = {
         _id: resData.post._id,
         title: resData.post.title,

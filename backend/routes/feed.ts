@@ -1,6 +1,6 @@
 import express from "express";
-import { getPosts, createPost, getPost } from "../controllers/feed";
-import { createPostsValidationRules } from "../validators/createPostsValidation";
+import { getPosts, createPost, getPost, updatePost } from "../controllers/feed";
+import { createPostsValidationRules, updatePostsValidationRules } from "../validators/postRouteValidation";
 
 const router = express.Router();
 
@@ -12,5 +12,8 @@ router.post("/post", createPostsValidationRules(), createPost);
 
 // GET => /post/:postId
 router.get("/post/:postId", getPost);
+
+// PUT => /post/:postId
+router.put("/post/:postId", updatePostsValidationRules() ,updatePost);
 
 export default router;
