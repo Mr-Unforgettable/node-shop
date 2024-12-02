@@ -66,7 +66,7 @@ const Feed: React.FC<FeedPageProps> = ({ userId, token }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/feed/posts");
+      const response = await fetch(`http://localhost:8080/feed/posts?page=${page}`);
       if (response.status !== 200) {
         throw new Error("Failed to fetch posts.");
       }

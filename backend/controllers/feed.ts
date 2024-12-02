@@ -17,12 +17,24 @@ class HttpError extends Error {
 
 export const getPosts: RequestHandler = async (req, res, next) => {
   try {
-    const posts = await Post.find();
-    if (posts) {
-      res.status(200).json({
-        message: "Fetched posts successfully.",
-        posts: posts,
-      });
+    const currentPage: any = req.query.page || 1;
+    const perPage = 2;
+
+    let totalItems;
+    const count = await Post.find().countDocuments();
+    if (count) {
+      totalItems = count;
+
+      const posts = await Post.find()
+        .skip((currentPage - 1) * perPage)
+        .limit(perPage);
+      if (posts) {
+        res.status(200).json({
+          message: "Fetched posts successfully.",
+          posts: posts,
+          totalItems: totalItems,
+        });
+      }
     }
   } catch (err) {
     return next(new HttpError("Failed to fetch posts.", 500));
