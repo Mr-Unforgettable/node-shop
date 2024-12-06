@@ -61,7 +61,8 @@ app.use((error: any, req: any, res: any, next: any) => {
   // console.log(`Status Code: ${error}`);
   const status = error.statusCode || 500;
   const message = error.message;
-  res.status(status).json({ message: message });
+  const data = error.data;
+  res.status(status).json({ message: message, data: data });
 });
 
 // MongoDB connection and server startup
